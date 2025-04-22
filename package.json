@@ -2,6 +2,7 @@
   "name": "weather-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://zoe-callaghan39.github.io/weather-app",
   "dependencies": {
     "@pixi/filter-glow": "^5.2.1",
     "@pixi/graphics-extras": "^7.4.3",
