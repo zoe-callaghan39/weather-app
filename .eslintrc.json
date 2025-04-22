@@ -1,0 +1,45 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "jest": true  // ✅ Enables Jest globals like 'describe', 'it', 'expect'
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:jest/recommended",  // ✅ Adds Jest linting rules
+        "prettier"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "react-hooks",
+        "prettier",
+        "jest"  // ✅ Enables Jest linting support
+    ],
+    "rules": {
+        "prettier/prettier": "error",
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off",
+        "no-console": "off",
+        "no-unused-vars": "warn",
+        "no-duplicate-imports": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "react-hooks/rules-of-hooks": "warn",
+        "jest/no-disabled-tests": "warn",
+        "jest/no-identical-title": "error", 
+        "jest/valid-expect": "error" 
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}
