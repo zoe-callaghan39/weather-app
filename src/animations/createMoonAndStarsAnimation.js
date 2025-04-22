@@ -2,7 +2,7 @@ import { Container, Sprite, Assets } from 'pixi.js';
 
 const createMoonAndStarsAnimation = async (app) => {
   const moonAndStarsAssets = [
-    '/assets/weather/moon.png',
+    '/assets/weather/moon1.png',
     'https://pixijs.com/assets/star.png',
   ];
 
@@ -71,8 +71,16 @@ const createMoonAndStarsAnimation = async (app) => {
   moon.anchor.set(0.5);
   moon.x = app.screen.width / 2;
   moon.y = app.screen.height / 4;
-  moon.scale.set(0.025);
+  // moon.scale.set(0.025);
+  moon.scale.set(0.05);
   app.stage.addChild(moon);
+
+  // Add rotation animation to the moon
+  app.ticker.add((time) => {
+    // Increase the moon's rotation over time.
+    // Adjust the multiplier (0.005) to control rotation speed.
+    moon.rotation += 0.0007 * time.deltaTime;
+  });
 };
 
 export default createMoonAndStarsAnimation;

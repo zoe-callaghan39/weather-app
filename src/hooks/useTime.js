@@ -6,49 +6,53 @@ const useTime = (latitude, longitude) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let intervalId;
-    let fetchIntervalId;
+    let tickInterval;
+    let initialTimeout;
+    let fetcher;
 
-    const fetchTime = () => {
-      fetch(
-        `https://www.timeapi.io/api/Time/current/coordinate?latitude=${latitude}&longitude=${longitude}`
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(
-              `Failed to fetch time data. Status: ${response.status}`
-            );
-          }
-          return response.json();
-        })
-        .then((data) => {
-          if (!data.dateTime) {
-            throw new Error('Invalid time data received from API');
-          }
+    const fetchTime = async () => {
+      try {
+        const res = await fetch(
+          `https://www.timeapi.io/api/Time/current/coordinate?latitude=${latitude}&longitude=${longitude}`
+        );
+        if (!res.ok) {
+          throw new Error(`Failed to fetch time (status ${res.status})`);
+        }
+        const data = await res.json();
+        if (!data.dateTime) {
+          throw new Error('Invalid time data received');
+        }
 
-          setLocalTime(new Date(data.dateTime));
-        })
-        .catch((err) => {
-          console.error('Error fetching time data:', err);
-          setError(err.message || 'Unable to fetch local time');
-        });
+        const newTime = new Date(data.dateTime);
+        setLocalTime(newTime);
+        setError(null);
+
+        clearTimeout(initialTimeout);
+        clearInterval(tickInterval);
+
+        const now = newTime;
+        const msUntilNextMinute =
+          (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+
+        initialTimeout = setTimeout(() => {
+          setLocalTime((prev) => new Date(prev.getTime() + 60000));
+          tickInterval = setInterval(() => {
+            setLocalTime((prev) => new Date(prev.getTime() + 60000));
+          }, 60000);
+        }, msUntilNextMinute);
+      } catch (err) {
+        console.error('Error fetching time data:', err);
+        setError(err.message || 'Unable to fetch time');
+      }
     };
 
     fetchTime();
-
-    // Fetch new time from API every 10 minutes
-    fetchIntervalId = setInterval(fetchTime, 10 * 60 * 1000);
-
-    // Increment time every minute locally
-    intervalId = setInterval(() => {
-      setLocalTime((prevTime) =>
-        prevTime ? new Date(prevTime.getTime() + 60 * 1000) : null
-      );
-    }, 60 * 1000);
+    fetcher = setInterval(fetchTime, 10 * 60 * 1000);
 
     return () => {
-      clearInterval(intervalId);
-      clearInterval(fetchIntervalId);
+      clearTimeout(initialTimeout);
+      clearInterval(tickInterval);
+      clearInterval(fetcher);
     };
   }, [latitude, longitude]);
 
