@@ -11,27 +11,38 @@ import createSunCloudAnimation from '../animations/createSunCloudAnimation';
 import createMoonAndStarsAnimation from '../animations/createMoonAndStarsAnimation';
 
 const WeatherAnimation = ({ weatherType, isNight }) => {
-  const pixiContainer = useRef(null);
+  const containerRef = useRef(null);
   const appRef = useRef(null);
 
   useEffect(() => {
-    if (!pixiContainer.current) return;
+    // 1) Make sure our div is mounted
+    if (!containerRef.current) return;
 
+    // 2) Tear down any existing app
     if (appRef.current) {
       appRef.current.destroy(true);
       appRef.current = null;
     }
 
-    const app = new Application();
-    app.init({ width: 200, height: 150, backgroundAlpha: 0 }).then(() => {
-      if (!pixiContainer.current) return;
-      pixiContainer.current.appendChild(app.canvas);
+    // 3) Spin up a fresh Pixi Application
+    const setup = async () => {
+      const app = new Application(); // no options here
+      await app.init({
+        // fully initialize with options
+        width: 200,
+        height: 150,
+        backgroundAlpha: 0,
+      });
+
+      // 4) Append its canvas element
+      containerRef.current.appendChild(app.canvas);
       appRef.current = app;
 
+      // 5) Kick off the right animation
       if (isNight) {
         createMoonAndStarsAnimation(app);
       } else {
-        const animationFunctions = {
+        const map = {
           sun: createSunAnimation,
           cloudy: createCloudAnimation,
           sunwithcloud: createSunCloudAnimation,
@@ -41,11 +52,13 @@ const WeatherAnimation = ({ weatherType, isNight }) => {
           thunder: createThunderAnimation,
           fog: createFogAnimation,
         };
-
-        animationFunctions[weatherType]?.(app);
+        map[weatherType]?.(app);
       }
-    });
+    };
 
+    setup();
+
+    // 6) On cleanup (unmount or prop change), destroy the app
     return () => {
       if (appRef.current) {
         appRef.current.destroy(true);
@@ -54,7 +67,7 @@ const WeatherAnimation = ({ weatherType, isNight }) => {
     };
   }, [weatherType, isNight]);
 
-  return <div ref={pixiContainer} className={isNight ? 'night-mode' : ''} />;
+  return <div ref={containerRef} className={isNight ? 'night-mode' : ''} />;
 };
 
 export default WeatherAnimation;

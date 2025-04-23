@@ -1,7 +1,7 @@
 import { Container, Sprite, Assets } from 'pixi.js';
 
 const createSunAnimation = async (app) => {
-  const sunAsset = '/assets/weather/fullsun.png';
+  const sunAsset = 'assets/weather/fullsun.png';
 
   await Assets.load(sunAsset);
   const texture = Assets.get(sunAsset);

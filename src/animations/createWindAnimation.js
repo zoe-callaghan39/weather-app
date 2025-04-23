@@ -2,10 +2,10 @@ import { Assets, Sprite, MeshRope, Point } from 'pixi.js';
 
 const createWindAnimation = async (app) => {
   const windAssets = [
-    '/assets/weather/cloud.png',
-    '/assets/weather/windgust1.png',
-    '/assets/weather/windgust2.png',
-    '/assets/weather/windgust3.png',
+    'assets/weather/cloud.png',
+    'assets/weather/windgust1.png',
+    'assets/weather/windgust2.png',
+    'assets/weather/windgust3.png',
   ];
 
   await Assets.load(windAssets);

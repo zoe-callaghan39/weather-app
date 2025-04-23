@@ -2,8 +2,8 @@ import { Assets, Sprite, Container } from 'pixi.js';
 
 const createSnowAnimation = async (app) => {
   const snowAssets = [
-    '/assets/weather/snowcloud.png',
-    '/assets/weather/snowflake.png',
+    'assets/weather/snowcloud.png',
+    'assets/weather/snowflake.png',
   ];
 
   await Assets.load(snowAssets);

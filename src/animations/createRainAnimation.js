@@ -2,8 +2,8 @@ import { Assets, Sprite, Container } from 'pixi.js';
 
 const createRainAnimation = async (app) => {
   const rainAssets = [
-    '/assets/weather/raincloud.png',
-    '/assets/weather/raindrop.png',
+    'assets/weather/raincloud.png',
+    'assets/weather/raindrop.png',
   ];
 
   await Assets.load(rainAssets);

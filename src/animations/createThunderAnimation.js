@@ -2,10 +2,10 @@ import { Assets, Sprite, Container } from 'pixi.js';
 
 const createThunderAnimation = async (app) => {
   const thunderAssets = [
-    '/assets/weather/thundercloudbig2.png',
-    '/assets/weather/thundercloudsmall.png',
-    '/assets/weather/raindrop.png',
-    '/assets/weather/lighteningbolt.png',
+    'assets/weather/thundercloudbig2.png',
+    'assets/weather/thundercloudsmall.png',
+    'assets/weather/raindrop.png',
+    'assets/weather/lighteningbolt.png',
   ];
 
   await Assets.load(thunderAssets);

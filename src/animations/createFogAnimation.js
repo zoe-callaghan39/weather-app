@@ -2,11 +2,11 @@ import { Assets, Sprite, Container } from 'pixi.js';
 
 const createFogAnimation = async (app) => {
   const fogAssets = [
-    '/assets/weather/fog1.png',
-    '/assets/weather/fog2.png',
-    '/assets/weather/fog4.png',
-    '/assets/weather/fog5.png',
-    '/assets/weather/fog6.png',
+    'assets/weather/fog1.png',
+    'assets/weather/fog2.png',
+    'assets/weather/fog4.png',
+    'assets/weather/fog5.png',
+    'assets/weather/fog6.png',
   ];
 
   await Assets.load(fogAssets);

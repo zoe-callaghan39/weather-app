@@ -2,9 +2,9 @@ import { Assets, Sprite, Container } from 'pixi.js';
 
 const createSunCloudAnimation = async (app) => {
   const sunCloudAssets = [
-    '/assets/weather/sunwithcloud.png',
-    '/assets/weather/cloud.png',
-    '/assets/weather/bigcloud.png',
+    'assets/weather/sunwithcloud.png',
+    'assets/weather/cloud.png',
+    'assets/weather/bigcloud.png',
   ];
 
   await Assets.load(sunCloudAssets);

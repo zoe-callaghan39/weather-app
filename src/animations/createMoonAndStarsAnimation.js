@@ -2,7 +2,7 @@ import { Container, Sprite, Assets } from 'pixi.js';
 
 const createMoonAndStarsAnimation = async (app) => {
   const moonAndStarsAssets = [
-    '/assets/weather/moon1.png',
+    'assets/weather/moon1.png',
     'https://pixijs.com/assets/star.png',
   ];
 
