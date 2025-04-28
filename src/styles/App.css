@@ -14,6 +14,17 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* background: url('../assets/weather-background3.png') no-repeat center center fixed;
+  background-size: cover; */
+  /* background-color: #CCE7FF; */
+  background: linear-gradient(
+    135deg,
+    #7FAEFF 0%,   
+    #99C9FF 50%,  
+    #CCE7FF 100%   
+  );
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .app-logo {

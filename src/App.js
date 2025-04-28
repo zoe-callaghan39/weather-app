@@ -5,7 +5,7 @@ import LocationInput from './components/LocationInput';
 import WeatherCard from './components/WeatherCard';
 import UnitToggle from './components/UnitToggle';
 
-import weatherImage from './assets/weather.png';
+import weatherImage from './assets/Weatherly1.png';
 import { getCoordinates } from './utils/geocode';
 
 const DEFAULT_CITIES = [
