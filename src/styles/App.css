@@ -60,15 +60,6 @@ h1 {
   display: none;
 }
 
-/* Weather Cards */
-.weather-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  margin-top: 20px;
-}
-
 .weather-card {
   background: linear-gradient(135deg, #3A1AA8, #50A8EE);
   color: white;
