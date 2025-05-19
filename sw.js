@@ -1,5 +1,5 @@
 const CACHE_NAME = 'offline-cache-v1';
-const OFFLINE_URL = `${self.location.origin}/weather-app/offline.html`;
+const OFFLINE_URL = new URL('offline.html', self.location).href;
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -16,9 +16,7 @@ self.addEventListener('activate', (event) => {
       .keys()
       .then((keys) =>
         Promise.all(
-          keys
-            .filter((key) => key !== CACHE_NAME)
-            .map((key) => caches.delete(key))
+          keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))
         )
       )
       .then(() => self.clients.claim())
@@ -28,7 +26,14 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request).catch(() => Response.redirect(OFFLINE_URL))
+      fetch(event.request).catch(async () => {
+        const allClients = await self.clients.matchAll({ type: 'window' });
+        for (const client of allClients) {
+          client.navigate(OFFLINE_URL);
+        }
+        const cache = await caches.open(CACHE_NAME);
+        return cache.match(OFFLINE_URL);
+      })
     );
   }
 });
