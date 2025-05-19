@@ -1,8 +1,5 @@
-// public/sw.js
 const CACHE_NAME = 'offline-cache-v1';
-
-// Dynamically compute the offline.html location relative to this SW file
-const OFFLINE_URL = new URL('offline.html', self.location).href;
+const OFFLINE_URL = `${self.location.origin}/weather-app/offline.html`;
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -19,7 +16,9 @@ self.addEventListener('activate', (event) => {
       .keys()
       .then((keys) =>
         Promise.all(
-          keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))
+          keys
+            .filter((key) => key !== CACHE_NAME)
+            .map((key) => caches.delete(key))
         )
       )
       .then(() => self.clients.claim())
@@ -27,11 +26,9 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Only intercept navigation requests (page loads)
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request).catch(() => Response.redirect(OFFLINE_URL))
     );
   }
-  // everything else (JS, CSS, images, API) just falls through
 });
