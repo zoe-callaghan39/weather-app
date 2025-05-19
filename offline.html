@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+  />
+  <title>Offline · Weather App</title>
+  <style>
+    /* Full-screen gradient background */
+    html, body {
+      margin:    0;
+      padding:   0;
+      width:     100%;
+      height:    100%;
+      background: linear-gradient(to bottom, #1e3a8a, #3b82f6);
+      overflow:  hidden;
+    }
+
+    /* Raindrop style */
+    .raindrop {
+      position:       absolute;
+      background:     rgba(255, 255, 255, 0.8);
+      border-radius:  50%;
+      top:            -30px;
+      animation:      fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(105vh);
+      }
+    }
+
+    /* Puddle splash style */
+    .puddle {
+      position:       absolute;
+      border-radius:  50%;
+      background:     radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 70%);
+      transform:      scaleY(0.3);
+      opacity:        0;
+      animation:      splash 2s ease-out infinite;
+      z-index:        5;
+      bottom:         -40px;
+    }
+
+    @keyframes splash {
+      0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.1, 0.03);
+      }
+      20% {
+        opacity: 0.7;
+        transform: translateY(-5px) scale(0.6, 0.12);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-8px) scale(2, 0.2);
+      }
+    }
+
+    /* Subtle ground line */
+    .ground {
+      position:  absolute;
+      bottom:    0;
+      left:      0;
+      width:     100%;
+      height:    5px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index:   4;
+    }
+  </style>
+</head>
+<body>
+  <!-- Ground line so puddles have context -->
+  <div class="ground"></div>
+
+  <script>
+    // Rain configuration
+    const config = {
+      raindrops:       80,
+      rainSpeed:       1,
+      puddleFrequency: 0.4
+    };
+
+    function createRaindrops() {
+      const container = document.createElement('div');
+      container.id = 'rain-container';
+      document.body.appendChild(container);
+
+      for (let i = 0; i < config.raindrops; i++) {
+        createRaindrop(container);
+      }
+    }
+
+    function createRaindrop(container) {
+      const drop = document.createElement('div');
+      drop.className = 'raindrop';
+
+      // Randomize
+      const width    = Math.random() * 3 + 2;
+      const height   = Math.random() * 20 + 15;
+      const left     = Math.random() * 100;
+      const duration = (Math.random() * 1 + 0.5) / config.rainSpeed;
+      const delay    = Math.random() * 5;
+      const opacity  = Math.random() * 0.3 + 0.6;
+
+      drop.style.width             = `${width}px`;
+      drop.style.height            = `${height}px`;
+      drop.style.left              = `${left}%`;
+      drop.style.animationDuration = `${duration}s`;
+      drop.style.animationDelay    = `${delay}s`;
+      drop.style.opacity           = opacity;
+
+      container.appendChild(drop);
+
+      drop.addEventListener('animationiteration', () => {
+        drop.style.left = `${Math.random() * 100}%`;
+        if (Math.random() < config.puddleFrequency) {
+          createPuddle(drop.style.left, width);
+        }
+      });
+    }
+
+    function createPuddle(position, dropSize) {
+      const puddle = document.createElement('div');
+      puddle.className = 'puddle';
+
+      const baseSize    = dropSize * 25;
+      const size        = baseSize + Math.random() * 30;
+      const animDuration= Math.random() * 0.5 + 1.5;
+
+      puddle.style.width             = `${size}px`;
+      puddle.style.height            = `${size}px`;
+      puddle.style.left              = position;
+      puddle.style.animationDuration = `${animDuration}s`;
+
+      document.body.appendChild(puddle);
+
+      setTimeout(() => puddle.remove(), animDuration * 1000);
+    }
+
+    // Start the rain when the page loads
+    window.addEventListener('load', createRaindrops);
+  </script>
+</body>
+</html>
