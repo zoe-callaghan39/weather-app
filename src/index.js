@@ -27,6 +27,3 @@ if ('serviceWorker' in navigator) {
 window.addEventListener('offline', () => {
   window.location.href = `${process.env.PUBLIC_URL}/offline.html`;
 });
-window.addEventListener('online', () => {
-  window.location.href = `${process.env.PUBLIC_URL}/`;
-});

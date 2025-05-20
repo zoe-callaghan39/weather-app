@@ -137,28 +137,26 @@
     window.addEventListener('load', createRaindrops);
   </script>
 
-  <script>
-    (function() {
-      const origin = window.location.origin;
-      const isGH = origin.includes('github.io');
-      const homePath = isGH ? '/weather-app/' : '/';
-      const homeURL  = origin + homePath;
+<script>
+  (function() {
+    const origin = window.location.origin;
+    const isGH = origin.includes('github.io');
+    const homePath = isGH ? '/weather-app/' : '/';
+    const homeURL  = origin + homePath;
 
-      async function tryRedirect() {
-        if (!navigator.onLine) return;
-        try {
-          await fetch(homeURL, { method: 'HEAD', mode: 'no-cors' });
-          window.location.replace(homeURL);
-        } catch (_err) {
-        }
+    async function tryRedirect() {
+      if (!navigator.onLine) return;
+      try {
+        await fetch(homeURL, { method: 'HEAD', cache: 'no-store' });
+        window.location.replace(homeURL);
+      } catch (_err) {
       }
+    }
 
-      window.addEventListener('online', tryRedirect);
+    window.addEventListener('online', tryRedirect);
+    setInterval(tryRedirect, 5_000);
 
-      setInterval(tryRedirect, 5_000);
-
-      tryRedirect();
-    })();
-  </script>
+  })();
+</script>
 </body>
 </html>
