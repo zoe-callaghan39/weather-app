@@ -1,39 +1,52 @@
-const CACHE_NAME = 'offline-cache-v1';
-const OFFLINE_URL = new URL('offline.html', self.location).href;
+const CACHE_NAME = 'offline-cache-v5';
+const OFFLINE_URL = 'offline.html';
+
+let offlineResponse = null;
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches
-      .open(CACHE_NAME)
-      .then((cache) => cache.add(OFFLINE_URL))
-      .then(() => self.skipWaiting())
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+
+      const resp = await fetch(OFFLINE_URL, { cache: 'no-cache' });
+      const body = await resp.text();
+
+      const custom = new Response(body, {
+        headers: { 'Content-Type': 'text/html; charset=UTF-8' },
+      });
+
+      await cache.put(OFFLINE_URL, custom.clone());
+      offlineResponse = custom;
+
+      await self.skipWaiting();
+    })()
   );
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches
-      .keys()
-      .then((keys) =>
-        Promise.all(
-          keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))
-        )
-      )
-      .then(() => self.clients.claim())
+    (async () => {
+      const keys = await caches.keys();
+      await Promise.all(
+        keys
+          .filter((key) => key !== CACHE_NAME)
+          .map((key) => caches.delete(key))
+      );
+      await self.clients.claim();
+    })()
   );
 });
 
 self.addEventListener('fetch', (event) => {
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request).catch(async () => {
-        const allClients = await self.clients.matchAll({ type: 'window' });
-        for (const client of allClients) {
-          client.navigate(OFFLINE_URL);
+      (async () => {
+        try {
+          return await fetch(event.request);
+        } catch (err) {
+          return offlineResponse || caches.match(OFFLINE_URL);
         }
-        const cache = await caches.open(CACHE_NAME);
-        return cache.match(OFFLINE_URL);
-      })
+      })()
     );
   }
 });

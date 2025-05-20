@@ -8,7 +8,6 @@
   />
   <title>Offline · Weather App</title>
   <style>
-    /* Full-screen gradient background */
     html, body {
       margin:    0;
       padding:   0;
@@ -18,7 +17,6 @@
       overflow:  hidden;
     }
 
-    /* Raindrop style */
     .raindrop {
       position:       absolute;
       background:     rgba(255, 255, 255, 0.8);
@@ -33,7 +31,6 @@
       }
     }
 
-    /* Puddle splash style */
     .puddle {
       position:       absolute;
       border-radius:  50%;
@@ -60,7 +57,6 @@
       }
     }
 
-    /* Subtle ground line */
     .ground {
       position:  absolute;
       bottom:    0;
@@ -73,11 +69,9 @@
   </style>
 </head>
 <body>
-  <!-- Ground line so puddles have context -->
   <div class="ground"></div>
 
   <script>
-    // Rain configuration
     const config = {
       raindrops:       80,
       rainSpeed:       1,
@@ -98,7 +92,6 @@
       const drop = document.createElement('div');
       drop.className = 'raindrop';
 
-      // Randomize
       const width    = Math.random() * 3 + 2;
       const height   = Math.random() * 20 + 15;
       const left     = Math.random() * 100;
@@ -127,9 +120,9 @@
       const puddle = document.createElement('div');
       puddle.className = 'puddle';
 
-      const baseSize    = dropSize * 25;
-      const size        = baseSize + Math.random() * 30;
-      const animDuration= Math.random() * 0.5 + 1.5;
+      const baseSize     = dropSize * 25;
+      const size         = baseSize + Math.random() * 30;
+      const animDuration = Math.random() * 0.5 + 1.5;
 
       puddle.style.width             = `${size}px`;
       puddle.style.height            = `${size}px`;
@@ -141,8 +134,31 @@
       setTimeout(() => puddle.remove(), animDuration * 1000);
     }
 
-    // Start the rain when the page loads
     window.addEventListener('load', createRaindrops);
+  </script>
+
+  <script>
+    (function() {
+      const origin = window.location.origin;
+      const isGH = origin.includes('github.io');
+      const homePath = isGH ? '/weather-app/' : '/';
+      const homeURL  = origin + homePath;
+
+      async function tryRedirect() {
+        if (!navigator.onLine) return;
+        try {
+          await fetch(homeURL, { method: 'HEAD', mode: 'no-cors' });
+          window.location.replace(homeURL);
+        } catch (_err) {
+        }
+      }
+
+      window.addEventListener('online', tryRedirect);
+
+      setInterval(tryRedirect, 5_000);
+
+      tryRedirect();
+    })();
   </script>
 </body>
 </html>
