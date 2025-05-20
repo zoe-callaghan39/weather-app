@@ -13,7 +13,13 @@ if ('serviceWorker' in navigator) {
       .register(`${process.env.PUBLIC_URL}/sw.js`, {
         scope: process.env.PUBLIC_URL + '/',
       })
-      .then((reg) => console.log('SW scope:', reg.scope))
+      .then((reg) => {
+        console.log('SW scope:', reg.scope);
+
+        setInterval(() => {
+          reg.update();
+        }, 30_000);
+      })
       .catch(console.error);
   });
 }
