@@ -18,6 +18,8 @@ self.addEventListener('install', (event) => {
       await cache.put(OFFLINE_URL, custom.clone());
       offlineResponse = custom;
 
+      await cache.addAll(['assets/h2.png', 'assets/h1.png', 'assets/rain.gif']);
+
       await self.skipWaiting();
     })()
   );
@@ -47,6 +49,19 @@ self.addEventListener('fetch', (event) => {
           return offlineResponse || caches.match(OFFLINE_URL);
         }
       })()
+    );
+    return;
+  }
+
+  if (
+    event.request.url.includes('/assets/h2.png') ||
+    event.request.url.includes('/assets/h1.png') ||
+    event.request.url.includes('/assets/rain.gif')
+  ) {
+    event.respondWith(
+      caches.match(event.request).then((cached) => {
+        return cached || fetch(event.request);
+      })
     );
   }
 });

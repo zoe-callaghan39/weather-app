@@ -66,10 +66,64 @@
       background: rgba(255, 255, 255, 0.1);
       z-index:   4;
     }
+
+    .image-overlay {
+      position:        absolute;
+      top: 0; left: 0;
+      width:           100%;
+      height:          100%;
+      display:         flex;
+      flex-direction:  column;
+      justify-content: space-between;
+      align-items:     center;
+      padding:         5vh 0;
+      pointer-events:  none;
+      z-index:         10;
+    }
+
+    .image-overlay img {
+      max-width:  60%;
+      max-height: 20vh;
+      width:      auto;
+      height:     auto;
+    }
+
+    .image-overlay img.logo-h2 {
+      max-width:  none;
+      max-height: none;
+      height:     30vh;
+      width:      auto;
+      position:   relative;
+      top:        5vh;
+    }
+
+    .image-overlay img.logo-h1 {
+      max-width:  none;
+      max-height: none;
+      height:     55vh;
+      width:      auto;
+      position:   relative;
+      top:       -7vh;
+    }
+
+    .image-overlay img.logo-rain {
+      max-width:  none;
+      max-height: none;
+      height:     33vh;
+      width:      auto;
+      position:    relative;
+      top:        -20vh;
+    }
   </style>
 </head>
 <body>
   <div class="ground"></div>
+
+  <div class="image-overlay">
+    <img src="assets/h2.png"   alt="H2 logo"      class="logo-h2">
+    <img src="assets/h1.png"   alt="H1 logo"      class="logo-h1">
+    <img src="assets/rain.gif" alt="Animated rain" class="logo-rain">
+  </div>
 
   <script>
     const config = {
@@ -137,26 +191,26 @@
     window.addEventListener('load', createRaindrops);
   </script>
 
-<script>
-  (function() {
-    const origin = window.location.origin;
+  <script>
+    (function() {
+      const origin = window.location.origin;
     const isGH = origin.includes('github.io');
-    const homePath = isGH ? '/weather-app/' : '/';
-    const homeURL  = origin + homePath;
+      const homePath = isGH ? '/weather-app/' : '/';
+      const homeURL  = origin + homePath;
 
-    async function tryRedirect() {
-      if (!navigator.onLine) return;
-      try {
-        await fetch(homeURL, { method: 'HEAD', cache: 'no-store' });
-        window.location.replace(homeURL);
+      async function tryRedirect() {
+        if (!navigator.onLine) return;
+        try {
+          await fetch(homeURL, { method: 'HEAD', cache: 'no-store' });
+          window.location.replace(homeURL);
       } catch (_err) {
       }
-    }
+      }
 
-    window.addEventListener('online', tryRedirect);
+      window.addEventListener('online', tryRedirect);
     setInterval(tryRedirect, 5_000);
 
-  })();
-</script>
+    })();
+  </script>
 </body>
 </html>
