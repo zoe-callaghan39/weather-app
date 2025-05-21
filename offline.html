@@ -17,7 +17,6 @@
       overflow:  hidden;
     }
 
-    /* rain drops */
     .raindrop {
       position:       absolute;
       background:     rgba(255, 255, 255, 0.8);
@@ -68,33 +67,62 @@
       z-index:   4;
     }
 
-    /* NEW: full‐screen overlay for your three images */
     .image-overlay {
-      position:       absolute;
+      position:        absolute;
       top: 0; left: 0;
-      width:          100%;
-      height:         100%;
-      display:        flex;
-      flex-direction: column;
+      width:           100%;
+      height:          100%;
+      display:         flex;
+      flex-direction:  column;
       justify-content: space-between;
-      align-items:    center;
-      pointer-events: none; /* clicks pass through */
-      z-index:        10;   /* on top of rain */
+      align-items:     center;
+      padding:         5vh 0;
+      pointer-events:  none;
+      z-index:         10;
     }
+
     .image-overlay img {
-      max-width:  80%;
+      max-width:  60%;
+      max-height: 20vh;
+      width:      auto;
       height:     auto;
+    }
+
+    .image-overlay img.logo-h2 {
+      max-width:  none;
+      max-height: none;
+      height:     30vh;
+      width:      auto;
+      position:   relative;
+      top:        5vh;
+    }
+
+    .image-overlay img.logo-h1 {
+      max-width:  none;
+      max-height: none;
+      height:     55vh;
+      width:      auto;
+      position:   relative;
+      top:       -7vh;
+    }
+
+    .image-overlay img.logo-rain {
+      max-width:  none;
+      max-height: none;
+      height:     33vh;
+      width:      auto;
+      position:    relative;
+      top:        -20vh;
     }
   </style>
 </head>
 <body>
   <div class="ground"></div>
 
-  <!-- NEW: three centered images (top / middle / bottom) -->
   <div class="image-overlay">
-    <img src="assets/images/h2.png" alt="H2 logo">
-    <img src="assets/images/h1.png" alt="H1 logo">
-    <img src="assets/images/rain.gif" alt="Animated rain">
+    <img src="assets/h2.png"   alt="H2 logo"      class="logo-h2">
+    <img src="assets/h1.png"   alt="H1 logo"      class="logo-h1">
+    <img src="assets/rain.gif" alt="Animated rain" class="logo-rain">
   </div>
 
   <script>
