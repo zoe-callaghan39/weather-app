@@ -17,6 +17,7 @@
       overflow:  hidden;
     }
 
+    /* rain drops */
     .raindrop {
       position:       absolute;
       background:     rgba(255, 255, 255, 0.8);
@@ -66,10 +67,35 @@
       background: rgba(255, 255, 255, 0.1);
       z-index:   4;
     }
+
+    /* NEW: full‐screen overlay for your three images */
+    .image-overlay {
+      position:       absolute;
+      top: 0; left: 0;
+      width:          100%;
+      height:         100%;
+      display:        flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items:    center;
+      pointer-events: none; /* clicks pass through */
+      z-index:        10;   /* on top of rain */
+    }
+    .image-overlay img {
+      max-width:  80%;
+      height:     auto;
+    }
   </style>
 </head>
 <body>
   <div class="ground"></div>
+
+  <!-- NEW: three centered images (top / middle / bottom) -->
+  <div class="image-overlay">
+    <img src="assets/images/h2.png" alt="H2 logo">
+    <img src="assets/images/h1.png" alt="H1 logo">
+    <img src="assets/images/rain.gif" alt="Animated rain">
+  </div>
 
   <script>
     const config = {
@@ -137,26 +163,26 @@
     window.addEventListener('load', createRaindrops);
   </script>
 
-<script>
-  (function() {
-    const origin = window.location.origin;
+  <script>
+    (function() {
+      const origin = window.location.origin;
     const isGH = origin.includes('github.io');
-    const homePath = isGH ? '/weather-app/' : '/';
-    const homeURL  = origin + homePath;
+      const homePath = isGH ? '/weather-app/' : '/';
+      const homeURL  = origin + homePath;
 
-    async function tryRedirect() {
-      if (!navigator.onLine) return;
-      try {
-        await fetch(homeURL, { method: 'HEAD', cache: 'no-store' });
-        window.location.replace(homeURL);
+      async function tryRedirect() {
+        if (!navigator.onLine) return;
+        try {
+          await fetch(homeURL, { method: 'HEAD', cache: 'no-store' });
+          window.location.replace(homeURL);
       } catch (_err) {
       }
-    }
+      }
 
-    window.addEventListener('online', tryRedirect);
+      window.addEventListener('online', tryRedirect);
     setInterval(tryRedirect, 5_000);
 
-  })();
-</script>
+    })();
+  </script>
 </body>
 </html>
