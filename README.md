@@ -15,4 +15,10 @@ The interface is built with React 18 and Vite; meteorological data is provided 
 - Run `npm test` to run tests and launch the test runner in interactive watch mode.
 - To publish changes, `npm run deploy` builds the production bundle and pushes it to the gh‑pages branch; repeat this command any time you commit up
 
+## Things left to do
+- Unit test coverage: expand unit tests to ensure application reliability as new features are added.
+- Mobile responsiveness: refine layouts and breakpoints so the interface feels native on phones and tablets.
+- Styling polish: introduce a more cohesive visual system (colour palette, typography, spacing) for a consistent look and feel.
+- Scalability: refactor data‑fetching and state management to handle larger user bases and higher request volumes gracefully.
+
 
