@@ -1,6 +1,6 @@
 export const getCoordinates = (cityName) => {
   return fetch(
-    `https://api.opencagedata.com/geocode/v1/json?q=${cityName}&key=6fe20c614e5849e1ad489081dc9e3709`
+    `https://api.opencagedata.com/geocode/v1/json?q=${cityName}&key=db355f0c6cf647828532fc8c0f7bdaea`
   )
     .then((response) => {
       if (!response.ok) {

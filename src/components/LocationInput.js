@@ -11,7 +11,7 @@ const LocationInput = ({ addLocation }) => {
     }
 
     fetch(
-      `https://api.opencagedata.com/geocode/v1/json?q=${query}&key=6fe20c614e5849e1ad489081dc9e3709`
+      `https://api.opencagedata.com/geocode/v1/json?q=${query}&key=db355f0c6cf647828532fc8c0f7bdaea`
     )
       .then((response) => {
         if (!response.ok) throw new Error('Failed to fetch suggestions');
